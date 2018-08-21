@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Mopeds</string>
+    <!--Strings for facebook app-->
+    <string name="facebook_app_id">2146321912299068</string>
+    <string name="fb_login_protocol_scheme">fb2146321912299068</string>
+    <string name="title_activity_moped2">MopedActivity2</string>
+    <string name="action_logout">LogOut</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_mopeds_tab">MopedsTab</string>
+    <string name="title_activity_mopeds">MopedsActivity</string>
+    <string name="tab_text_1">mopedCo1</string>
+    <string name="tab_text_2">mopedCo2</string>
+    <string name="logout">Logout</string>
+</resources>
