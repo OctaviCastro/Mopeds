@@ -6,26 +6,22 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
+import octavicastro.mopeds.Adapters.PagerViewAdapter;
+import octavicastro.mopeds.Operations.MopedOperations;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,13 +45,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Create the adapter that will return a fragment for each of the three
+        //Realm DB
+        Realm.init(this);
+
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
+                .name("Mopeds")
+                .build();
+
+        Realm.setDefaultConfiguration(realmConfiguration);
+
+        MopedOperations mopedOperations = new MopedOperations(Realm.getDefaultInstance());
+
+        // Create the adapter that will return a fragment for each of the two
         // primary sections of the activity.
         mSectionsPagerAdapter = new MainActivity.SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+       PagerViewAdapter gridViewAdapter = new PagerViewAdapter(this, mopedOperations);
+       mViewPager.setAdapter(gridViewAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
 
@@ -67,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
 
+        //if user isn't logged then go to startLoginActivity
         if(!isLoggedIn) {
             startLoginActivity();
         }
@@ -131,9 +140,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_mopeds, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            int selectedNumberTab = getArguments().getInt(ARG_SECTION_NUMBER);
+            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
             return rootView;
         }
     }

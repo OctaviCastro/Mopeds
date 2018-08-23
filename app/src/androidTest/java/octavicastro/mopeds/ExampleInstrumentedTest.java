@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("octavicastro.mopeds", appContext.getPackageName());
+        assertEquals("octavicastro.fragment_main", appContext.getPackageName());
     }
 }

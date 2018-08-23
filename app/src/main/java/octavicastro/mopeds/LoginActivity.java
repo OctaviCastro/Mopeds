@@ -3,7 +3,7 @@ package octavicastro.mopeds;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -29,8 +29,6 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                System.out.println("Success");
-                Log.i("succes", "onsuccess");
 
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -39,14 +37,12 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onCancel() {
-                System.out.println("Cancel");
-                // App code
+                Toast.makeText(getApplicationContext(), "Login Cancelled", Toast.LENGTH_LONG);
             }
 
             @Override
             public void onError(FacebookException exception) {
-                System.out.println("Error" + exception.getMessage());
-                // App code
+                Toast.makeText(getApplicationContext(), "Error" + exception.getMessage(), Toast.LENGTH_LONG);
             }
         });
 
